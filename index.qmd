@@ -1,11 +1,147 @@
 ---
-title: "inlabru_NewCaledonia"
+title: "`inlabru` Workshop"
+author: "Jafet Belmont, Sara Martino and Janine Illian"
+subtitle: ""
+format: 
+  html:
+    mainfont: "12"
+  PrettyPDF-pdf:
+    keep-tex:  true
+    number-sections: true
+editor_options: 
+  chunk_output_type: console
 ---
 
-This is a Quarto website. t
+# Welcome to the course!
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+-   Welcome to the `inlabru` workshop!
+-   The aim of this workshop is to introduce you to a range of statistical modelling approaches, in particular the temporal, spatial and spatio-temporal modelling as implemented in the `inlabru` package.
+-   Workshop materials are available in the github repository 
+
+
+# Learning Objectives for the workshop
+
+At the end of the workshop, participants will have an understanding of:
+
+-   the motivation for and the challenges of analysing and modelling spatial data
+-   statistical models used to analyse spatial and spatio-temporal data
+-   the implementation of these models in the `inlabru` package
+-   how to independently analyse spatial data with `inlabru`
+
+# Intended audience
+
+The workshop aims to cater for participants with a range of different backgrounds, who is interested in analysing data with modern spatial and spatio-temporal statistical modelling approaches.
+
+# Prerequisites
+
+Participants should be familiar with the `R` environment, and general statistical approaches for modelling such as regression, analysis of (co)variance, and generalized linear models.​
+
+No knowledge of `R-INLA` or `inlabru` is required.
+
+# Schedule {#schedule-tabs}
+
+::: panel-tabset
+### Day 1
+
+
+: {.striped .hover}
+
+### Day 2
+
+
+: {.striped .hover}
+
+### Day 3
+
+
+
+: {.striped .hover}
+
+### Day 4
+
+
+: {.striped .hover}
+
+### Day 5
+
+
+: {.striped .hover}
+:::
+
+\clearpage
+
+# In preparation for the workshop
+
+Participants are required to follow the below steps ahead of the first day of the workshop:
+
+1.  Check your `R` version, it should be at least 4.3....
+
+2.  Install [R-INLA](https://www.r-inla.org/download-install)
+
+3.  Install `inlabru` (available from CRAN)
 
 ```{r}
-1 + 1
+#| eval: false
+# Enable universe(s) by inlabru-org
+options(repos = c(
+  inlabruorg = "https://inlabru-org.r-universe.dev",
+  INLA = "https://inla.r-inla-download.org/R/testing",
+  CRAN = "https://cloud.r-project.org"
+))
+
+# Install some packages
+install.packages("inlabru")
 ```
+
+3.  Make sure you have the latest `R-INLA`, `inlabru` and `R` versions installed.
+4.  Install the following libraries:
+
+```{r}
+#| results: hide
+#| echo: false
+
+#source("Code/extract_practicals_libraries.R")
+
+```
+
+<!-- ```{r} -->
+<!-- #| echo: false -->
+<!-- #| warning: false -->
+<!-- #| message: false -->
+
+
+<!--     if (file.exists("practicals_libraries.rds")) { -->
+<!--       libs_data <- readRDS("practicals_libraries.rds") -->
+
+<!--       # Libraries to exclude -->
+<!--       exclude_libs <- c("webexercises", "INLA", "inlabru", "knitr") -->
+
+<!--       # Filter out excluded libraries -->
+<!--       filtered_libs <- libs_data[!libs_data$Library %in% exclude_libs, ] -->
+
+<!--       if (nrow(filtered_libs) > 0) { -->
+
+<!--         cat("install.packages(c(\n") -->
+<!--         cat(paste0('  "', filtered_libs$Library, '"', collapse = ",\n")) -->
+<!--         cat("\n))") -->
+
+<!--       } else { -->
+<!--         cat("No libraries found after filtering.\n") -->
+<!--       } -->
+<!--     } -->
+<!-- ``` -->
+
+
+
+
+<!-- --- -->
+<!-- title: "inlabru_NewCaledonia" -->
+<!-- --- -->
+
+<!-- This is a Quarto website. t -->
+
+<!-- To learn more about Quarto websites visit <https://quarto.org/docs/websites>. -->
+
+<!-- ```{r} -->
+<!-- 1 + 1 -->
+<!-- ``` -->

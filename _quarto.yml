@@ -1,21 +1,30 @@
 project:
   type: website
-
+  render: 
+    - index.qmd
+    - slides/slides_1.qmd
 website:
   title: "inlabru_NewCaledonia"
   navbar:
+    logo: Image/INLA_logo.png
+    right:
+      - text: "Home"
+        href: index.qmd
     left:
-      - href: index.qmd
-        text: Home
-      - about.qmd
-
+      - text: "Slides"
+        menu:
+          - text: "Slides 1"
+            href: slides/slides_1.qmd
 format:
-  html:
-    theme:
-      - cosmo
-      - brand
-    css: styles.css
-    toc: true
+  revealjs:
+    footer: "<a href='../index.html'>Back to Home</a>"
+        
 
-
+# format:
+#   html:
+#     theme:
+#       - cosmo
+#       - brand
+#     css: styles.css
+#     toc: true
 

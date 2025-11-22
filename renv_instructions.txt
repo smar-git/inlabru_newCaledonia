@@ -1,0 +1,108 @@
+# ==============================
+# 1️⃣ Update CRAN packages
+# ==============================
+
+# Update a single package
+renv::update("ggplot2")
+
+# Update all CRAN packages
+renv::update()
+
+
+# ==============================
+# 2️⃣ Update INLA
+# ==============================
+
+# Stable version
+INLA::inla.upgrade(testing = FALSE)
+
+# Optional: testing version
+# INLA::inla.upgrade(testing = TRUE)
+
+
+# ==============================
+# 3️⃣ Install any new packages
+# ==============================
+
+# CRAN package
+install.packages("patchwork")
+
+# GitHub package
+renv::install("inlabru/inlabru")
+
+
+# ==============================
+# 4️⃣ Update renv lockfile
+# ==============================
+
+renv::snapshot()
+# Commit renv.lock and renv/activate.R to GitHub
+# Do NOT commit renv/library/
+
+
+# ==============================
+# 5️⃣ Collaborators / other machines
+# ==============================
+
+# After pulling changes from GitHub
+renv::restore()
+
+
+# ==============================
+# 6️⃣ GitHub Actions / Deployment
+# ==============================
+
+# Make sure your workflow includes:
+# - uses: r-lib/actions/setup-renv@v2
+# This automatically installs all packages from renv.lock
+
+
+
+
+
+
+Packages installed in the renv environment:
+
+# testing version of INLA
+install.packages("INLA",repos=c(getOption("repos"),INLA="https://inla.r-inla-download.org/R/testing"), dep=TRUE) 
+
+
+# Enable universe(s) by inlabru-org
+options(repos = c(
+  inlabruorg = "https://inlabru-org.r-universe.dev",
+  INLA = "https://inla.r-inla-download.org/R/testing",
+  CRAN = "https://cloud.r-project.org"
+))
+
+# Install some packages
+install.packages("inlabru")
+
+install.packages(c(
+  "CARBayesdata",
+  "DAAG",
+  "dplyr",
+  "FSAdata",
+  "ggplot2",
+  "gt",
+  "lubridate",
+  "magrittr",
+  "mapview",
+  "patchwork",
+  "scico",
+  "sdmTMB",
+  "sf",
+  "spatstat",
+  "spdep",
+  "terra",
+  "tidyr",
+  "tidyterra",
+  "tidyverse"
+))
+
+renv::snapshot()
+
+
+NOTE TO SELF:
+
+if you want to upgrade/install new libraries you need to 
+

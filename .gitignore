@@ -1,0 +1,27 @@
+
+
+
+# Quarto output folders
+
+*_files/
+*_cache/
+*_freeze/
+_site/
+site_libs/
+
+# Keep built output ONLY on gh-pages branch (deploy)
+!deploy/**
+
+# R
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+
+
+
+
+# OS junk
+.DS_Store
+Thumbs.db
+

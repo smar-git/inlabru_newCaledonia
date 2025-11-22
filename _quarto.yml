@@ -19,12 +19,8 @@ format:
   revealjs:
     footer: "<a href='../index.html'>Back to Home</a>"
         
+publish:
+  gh-pages:
+    branch: gh-pages
 
-# format:
-#   html:
-#     theme:
-#       - cosmo
-#       - brand
-#     css: styles.css
-#     toc: true
 

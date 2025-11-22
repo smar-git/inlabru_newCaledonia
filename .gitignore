@@ -2,7 +2,7 @@
 
 
 # Quarto output folders
-
+.quarto/project-cache/
 *_files/
 *_cache/
 *_freeze/
@@ -25,3 +25,6 @@ site_libs/
 .DS_Store
 Thumbs.db
 
+
+/.quarto/
+**/*.quarto_ipynb

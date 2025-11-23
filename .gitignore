@@ -1,12 +1,9 @@
-
-
-
 # Quarto output folders
 .quarto/project-cache/
 *_files/
 *_cache/
 *_freeze/
-#_site/
+_site/
 site_libs/
 
 # Keep built output ONLY on gh-pages branch (deploy)

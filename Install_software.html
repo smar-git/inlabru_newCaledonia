@@ -231,7 +231,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="installation-check" class="level2">
 <h2 class="anchored" data-anchor-id="installation-check">Installation check</h2>
-<p>Please check your installation using the basic model runs below. If you run into issues, you can post a question with information about what you tried and what didn’t work, on the <a href="https://github.com/inlabru-org/inlabruCourseMay2025/discussions">course github discussion page</a> and Finn will reply when he’s able. Since 29 April 2025, the latest INLA package is built for R 4.5, so if you’re able to upgrade your R installation, please do so to avoid unnecessary issues. The package will in many cases also work with older R versions, but compatibility is sometimes difficult.</p>
+<p>Please check your installation using the basic model runs below.</p>
+<p>If you run into issues, you can post a question with information about what you tried and what didn’t work, on the <a href="https://github.com/smar-git/inlabru_newCaledonia/discussions">course github discussion page</a>.</p>
 <p>You can check that <code>INLA</code> is correctly installed by running</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">y =</span> <span class="fu">rnorm</span>(<span class="dv">100</span>) <span class="sc">+</span> <span class="dv">10</span>)</span>
@@ -242,18 +243,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Time used:
-    Pre = 0.431, Running = 0.12, Post = 0.0145, Total = 0.566 
+    Pre = 0.463, Running = 0.122, Post = 0.015, Total = 0.6 
 Fixed effects:
-             mean    sd 0.025quant 0.5quant 0.975quant  mode kld
-(Intercept) 9.947 0.099      9.752    9.947     10.142 9.947   0
+              mean    sd 0.025quant 0.5quant 0.975quant   mode kld
+(Intercept) 10.016 0.094      9.832   10.016       10.2 10.016   0
 
 Model hyperparameters:
                                         mean    sd 0.025quant 0.5quant
-Precision for the Gaussian observations 1.03 0.145      0.769     1.03
+Precision for the Gaussian observations 1.16 0.163      0.861     1.15
                                         0.975quant mode
-Precision for the Gaussian observations       1.34 1.01
+Precision for the Gaussian observations       1.50 1.13
 
-Marginal log-Likelihood:  -153.05 
+Marginal log-Likelihood:  -147.35 
  is computed 
 Posterior summaries for the linear predictor and the fitted values are computed
 (Posterior marginals needs also 'control.compute=list(return.marginals.predictor=TRUE)')</code></pre>
@@ -282,18 +283,18 @@ Observation models:
     Additive/Linear: TRUE/TRUE
     Used components: effects[Intercept], latent[] 
 Time used:
-    Pre = 0.231, Running = 0.119, Post = 0.0269, Total = 0.377 
+    Pre = 0.253, Running = 0.122, Post = 0.0277, Total = 0.403 
 Fixed effects:
-           mean    sd 0.025quant 0.5quant 0.975quant  mode kld
-Intercept 9.947 0.099      9.752    9.947     10.142 9.947   0
+            mean    sd 0.025quant 0.5quant 0.975quant   mode kld
+Intercept 10.016 0.094      9.831   10.016       10.2 10.016   0
 
 Model hyperparameters:
                                         mean    sd 0.025quant 0.5quant
-Precision for the Gaussian observations 1.03 0.145      0.769     1.03
+Precision for the Gaussian observations 1.16 0.163      0.861     1.15
                                         0.975quant mode
-Precision for the Gaussian observations       1.34 1.01
+Precision for the Gaussian observations       1.50 1.13
 
-Marginal log-Likelihood:  -157.52 
+Marginal log-Likelihood:  -151.81 
  is computed 
 Posterior summaries for the linear predictor and the fitted values are computed
 (Posterior marginals needs also 'control.compute=list(return.marginals.predictor=TRUE)')</code></pre>

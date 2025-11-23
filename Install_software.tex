@@ -275,7 +275,7 @@
 \@ifundefined{codebgcolor}{\definecolor{codebgcolor}{named}{light}}{}
 \makeatother
 \makeatletter
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[breakable, boxrule=0pt, frame hidden, colback={codebgcolor}, sharp corners, enhanced]}{\end{tcolorbox}}\fi
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[frame hidden, breakable, boxrule=0pt, colback={codebgcolor}, enhanced, sharp corners]}{\end{tcolorbox}}\fi
 \makeatother
 \usepackage{bookmark}
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
@@ -363,15 +363,12 @@ install.packages(c(
 
 \section{Installation check}\label{installation-check}
 
-Please check your installation using the basic model runs below. If you
-run into issues, you can post a question with information about what you
-tried and what didn't work, on the
-\href{https://github.com/inlabru-org/inlabruCourseMay2025/discussions}{course
-github discussion page} and Finn will reply when he's able. Since 29
-April 2025, the latest INLA package is built for R 4.5, so if you're
-able to upgrade your R installation, please do so to avoid unnecessary
-issues. The package will in many cases also work with older R versions,
-but compatibility is sometimes difficult.
+Please check your installation using the basic model runs below.
+
+If you run into issues, you can post a question with information about
+what you tried and what didn't work, on the
+\href{https://github.com/smar-git/inlabru_newCaledonia/discussions}{course
+github discussion page}.
 
 You can check that \texttt{INLA} is correctly installed by running
 
@@ -388,18 +385,18 @@ You can check that \texttt{INLA} is correctly installed by running
 
 \begin{verbatim}
 Time used:
-    Pre = 0.97, Running = 0.198, Post = 0.00854, Total = 1.18 
+    Pre = 1.01, Running = 0.186, Post = 0.00825, Total = 1.2 
 Fixed effects:
              mean    sd 0.025quant 0.5quant 0.975quant  mode kld
-(Intercept) 9.999 0.103      9.798    9.999     10.201 9.999   0
+(Intercept) 9.878 0.098      9.686    9.878     10.071 9.878   0
 
 Model hyperparameters:
-                                         mean    sd 0.025quant 0.5quant
-Precision for the Gaussian observations 0.965 0.136      0.718    0.959
-                                        0.975quant  mode
-Precision for the Gaussian observations       1.25 0.946
+                                        mean    sd 0.025quant 0.5quant
+Precision for the Gaussian observations 1.06 0.149      0.786     1.05
+                                        0.975quant mode
+Precision for the Gaussian observations       1.37 1.04
 
-Marginal log-Likelihood:  -156.51 
+Marginal log-Likelihood:  -151.94 
  is computed 
 Posterior summaries for the linear predictor and the fitted values are computed
 (Posterior marginals needs also 'control.compute=list(return.marginals.predictor=TRUE)')
@@ -437,18 +434,18 @@ Observation models:
     Additive/Linear: TRUE/TRUE
     Used components: effects[Intercept], latent[] 
 Time used:
-    Pre = 0.874, Running = 0.186, Post = 0.013, Total = 1.07 
+    Pre = 0.877, Running = 0.194, Post = 0.0125, Total = 1.08 
 Fixed effects:
            mean    sd 0.025quant 0.5quant 0.975quant  mode kld
-Intercept 9.999 0.103      9.798    9.999     10.201 9.999   0
+Intercept 9.878 0.098      9.686    9.878     10.071 9.878   0
 
 Model hyperparameters:
-                                         mean    sd 0.025quant 0.5quant
-Precision for the Gaussian observations 0.965 0.136      0.718    0.959
-                                        0.975quant  mode
-Precision for the Gaussian observations       1.25 0.946
+                                        mean    sd 0.025quant 0.5quant
+Precision for the Gaussian observations 1.06 0.149      0.786     1.05
+                                        0.975quant mode
+Precision for the Gaussian observations       1.37 1.04
 
-Marginal log-Likelihood:  -160.98 
+Marginal log-Likelihood:  -156.40 
  is computed 
 Posterior summaries for the linear predictor and the fitted values are computed
 (Posterior marginals needs also 'control.compute=list(return.marginals.predictor=TRUE)')

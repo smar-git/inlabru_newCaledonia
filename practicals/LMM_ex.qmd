@@ -1,17 +1,60 @@
 ---
-title: "LMM"
+title: "Practical 1 - Linear (Mixed) Models"
+execute: 
+  freeze: auto
 format: 
   html:
-    theme:
-      light: flatly
-      dark: darkly
+    mainfont: "12"
   PrettyPDF-pdf:
-    keep-tex: true
+    keep-tex: false
     number-sections: true
 embed-resources: true
 editor_options: 
   chunk_output_type: console
 ---
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+#| purl: false
+#| results: hide
+library(webexercises)
+knitr::purl(knitr::current_input())
+```
+
+
+In this practical we are going to fit linear (mixed) models in `inlabru`. 
+We are going to to:
+
+- Fit a [simple linear regression](#SLR)
+- Fit a linear regression with discrete covariates and interactions
+- Fit a linear mixed model.
+
+In all cases we are first going to simulate our data.
+We then fit the data and explore the results.
+
+
+Start by loading useful libraries:
+
+```{r}
+#| warning: false
+#| message: false
+#| code-summary: "Load libraries"
+
+library(dplyr)
+library(INLA)
+library(ggplot2)
+library(patchwork)
+library(inlabru)     
+# load some libraries to generate nice plots
+library(scico)
+```
+
+
+## Simple linear regression{#SLR}
+
+
 
 ## Linear Mixed Model
 
@@ -100,7 +143,7 @@ df = data.frame(y = y, x = x, j = rep(1:5, each = 20))
 
 Note that `inlabru` expects an integer indexing variable to label the groups.
 
-```{r plot_data_lmm}
+```{r}
 #| code-fold: true
 #| fig-cap: Data for the linear mixed model example with 5 groups
 #| fig-align: center
@@ -122,7 +165,7 @@ ggplot(df) +
 
 In order to specify this model we must use the `group` argument to tell `inlabru` which variable indexes the groups. The `model = "iid"` tells INLA that the groups are independent from one another.
 
-```{r define_components_lmm}
+```{r }
 # Define model components
 cmp =  ~ -1 + beta_0(1) + beta_1(x, model = "linear") +
   u(j, model = "iid")
@@ -130,7 +173,7 @@ cmp =  ~ -1 + beta_0(1) + beta_1(x, model = "linear") +
 
 The group variable is indexed by column `j` in the dataset. We have chosen to name this component `v()` to connect with the mathematical notation that we used above.
 
-```{r define_likelihood_lmm}
+```{r }
 # Construct likelihood
 lik =  bru_obs(formula = y ~.,
             family = "gaussian",

@@ -18,10 +18,9 @@ jobs:
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
 
-      - name: Install TinyTeX (required for PDF rendering)
+      - name: Install TinyTeX (for PDF rendering)
         run: |
           quarto install tinytex
-          tlmgr update --self
 
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2
@@ -29,6 +28,7 @@ jobs:
           target: gh-pages
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 
 
 # 

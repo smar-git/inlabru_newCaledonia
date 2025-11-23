@@ -10,12 +10,18 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
 
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
+
+      - name: Install TinyTeX (required for PDF rendering)
+        run: |
+          quarto install tinytex
+          tlmgr update --self
 
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2

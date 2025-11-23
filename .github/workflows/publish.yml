@@ -40,7 +40,7 @@ jobs:
       # Install R
       - uses: r-lib/actions/setup-r@v2
 
-      # Cache renv library
+      # Cache renv library to speed up builds
       - name: Cache renv packages
         uses: actions/cache@v3
         with:
@@ -53,13 +53,13 @@ jobs:
       # Setup renv
       - uses: r-lib/actions/setup-renv@v2
 
-      # Restore R packages from renv.lock
+      # Restore project packages from renv.lock
       - name: Restore R packages
         run: R -e 'renv::restore(prompt = FALSE)'
 
-      # Optional: ensure sn is installed (backup)
-      - name: Install sn package (backup)
-        run: R -e 'if(!requireNamespace("sn", quietly=TRUE)) install.packages("sn")'
+      # Install sn globally so INLA can detect it
+      - name: Install sn globally
+        run: R -e 'install.packages("sn", repos="https://cloud.r-project.org/")'
 
       # Render ONLY HTML website (NO PDF)
       - name: Render HTML website
@@ -71,4 +71,3 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: _site
-

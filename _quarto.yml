@@ -29,5 +29,6 @@ format:
 publish:
   gh-pages:
     branch: gh-pages
-
+execute:
+  freeze: auto
 

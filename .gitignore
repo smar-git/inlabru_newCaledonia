@@ -1,8 +1,8 @@
 # Quarto output folders
-.quarto/project-cache/
+.quarto/
 *_files/
 *_cache/
-*_freeze/
+#*_freeze/
 _site/
 site_libs/
 

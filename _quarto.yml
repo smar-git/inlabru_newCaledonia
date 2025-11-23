@@ -12,10 +12,16 @@ website:
       - text: "Home"
         href: index.qmd
     left:
+      - text: "Installation"
+        href: Install_software.qmd
       - text: "Slides"
         menu:
           - text: "Slides 1"
             href: slides/slides_1.qmd
+      - text: "Practicals"
+        menu:
+          - text: "Practical 1"
+
 format:
   revealjs:
     footer: "<a href='../index.html'>Back to Home</a>"

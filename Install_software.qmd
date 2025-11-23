@@ -1,5 +1,5 @@
 ---
-title: "Software Insteallation"
+title: "Software Installation"
 author: ""
 subtitle: ""
 format: 
@@ -47,6 +47,42 @@ install.packages("inlabru")
 
 4.  Install the following libraries:
 
+```{r}
+#| results: hide
+#| echo: false
+
+source("Code/extract_practicals_libraries.R")
+
+```
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+
+
+    if (file.exists("practicals_libraries.rds")) {
+      libs_data <- readRDS("practicals_libraries.rds")
+      
+      # Libraries to exclude
+      exclude_libs <- c("webexercises", "INLA", "inlabru", "knitr")
+      
+      # Filter out excluded libraries
+      filtered_libs <- libs_data[!libs_data$Library %in% exclude_libs, ]
+      
+      if (nrow(filtered_libs) > 0) {
+
+        cat("install.packages(c(\n")
+        cat(paste0('  "', filtered_libs$Library, '"', collapse = ",\n"))
+        cat("\n))")
+        
+      } else {
+        cat("No libraries found after filtering.\n")
+      }
+    }
+```
+
+
 ## Installation check
 
 Please check your installation using the basic model runs below. If you run into issues, you can post a question with information about what you tried and what didn't work, on the [course github discussion page](https://github.com/inlabru-org/inlabruCourseMay2025/discussions) and Finn will reply when he's able.
@@ -54,7 +90,7 @@ Since 29 April 2025, the latest INLA package is built for R 4.5, so if you're ab
 
 You can check that `INLA` is correctly installed by running
 ```{r}
-#| eval: false
+#| eval: true
 df <- data.frame(y = rnorm(100) + 10)
 fit <- INLA::inla(
   y ~ 1,
@@ -69,7 +105,7 @@ with `INLA::inla.binary.install()`.
 When `inla()` works, you can check that `inlabru` is installed correctly by running
 the same model in `inlabru`:
 ```{r}
-#| eval: false
+#| eval: true
 fit <- inlabru::bru(
   y ~ Intercept(1, prec.linear = exp(-7)),
   data = df

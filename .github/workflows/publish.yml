@@ -25,13 +25,13 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 
-
-name: Publish HTML Website
-
-on:
-  push:
-    branches: [ main ]
-  workflow_dispatch:
+# 
+# name: Publish HTML Website
+# 
+# on:
+#   push:
+#     branches: [ main ]
+#   workflow_dispatch:
 
 # jobs:
 #   build-website:

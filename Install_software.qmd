@@ -15,7 +15,7 @@ editor_options:
 
 Please use the instructions below to install and check your installation. 
 
-If you run into issues, you can post a question with information about what you tried and what didn't work, on the [course github discussion page](https://github.com/smar-git/inlabru_newCaledonia/discussions) and we will try reply.
+If you run into issues, you can post a question with information about what you tried and what didn't work, on the [course github discussion page]() and we will try reply.
 
 Since 29 April 2025, the latest INLA package is built for R 4.5, so if you're able to upgrade your R installation, please do so to avoid unnecessary issues. The package will in many cases also work with older R versions, but compatibility is sometimes difficult.
 

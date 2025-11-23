@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.26">
+<meta name="generator" content="quarto-1.8.24">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -73,10 +73,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-149ffeedc3ef7bd9c6c266682554e9cd.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-42f89cd94dc6d7758a2eca2db0ad2161.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -243,18 +243,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Time used:
-    Pre = 0.463, Running = 0.122, Post = 0.015, Total = 0.6 
+    Pre = 0.96, Running = 0.254, Post = 0.00858, Total = 1.22 
 Fixed effects:
               mean    sd 0.025quant 0.5quant 0.975quant   mode kld
-(Intercept) 10.016 0.094      9.832   10.016       10.2 10.016   0
+(Intercept) 10.001 0.092      9.819   10.001     10.182 10.001   0
 
 Model hyperparameters:
                                         mean    sd 0.025quant 0.5quant
-Precision for the Gaussian observations 1.16 0.163      0.861     1.15
+Precision for the Gaussian observations 1.19 0.167      0.884     1.18
                                         0.975quant mode
-Precision for the Gaussian observations       1.50 1.13
+Precision for the Gaussian observations       1.54 1.17
 
-Marginal log-Likelihood:  -147.35 
+Marginal log-Likelihood:  -145.97 
  is computed 
 Posterior summaries for the linear predictor and the fitted values are computed
 (Posterior marginals needs also 'control.compute=list(return.marginals.predictor=TRUE)')</code></pre>
@@ -283,18 +283,18 @@ Observation models:
     Additive/Linear: TRUE/TRUE
     Used components: effects[Intercept], latent[] 
 Time used:
-    Pre = 0.253, Running = 0.122, Post = 0.0277, Total = 0.403 
+    Pre = 0.866, Running = 0.182, Post = 0.0126, Total = 1.06 
 Fixed effects:
             mean    sd 0.025quant 0.5quant 0.975quant   mode kld
-Intercept 10.016 0.094      9.831   10.016       10.2 10.016   0
+Intercept 10.001 0.092      9.819   10.001     10.182 10.001   0
 
 Model hyperparameters:
                                         mean    sd 0.025quant 0.5quant
-Precision for the Gaussian observations 1.16 0.163      0.861     1.15
+Precision for the Gaussian observations 1.19 0.167      0.884     1.18
                                         0.975quant mode
-Precision for the Gaussian observations       1.50 1.13
+Precision for the Gaussian observations       1.54 1.17
 
-Marginal log-Likelihood:  -151.81 
+Marginal log-Likelihood:  -150.44 
  is computed 
 Posterior summaries for the linear predictor and the fitted values are computed
 (Posterior marginals needs also 'control.compute=list(return.marginals.predictor=TRUE)')</code></pre>
@@ -378,7 +378,7 @@ Posterior summaries for the linear predictor and the fitted values are computed
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp('/' + window.location.host + '/');
+        var filterRegex = new RegExp("https:\/\/smar-git\.github\.io\/inlabru_newCaledonia\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

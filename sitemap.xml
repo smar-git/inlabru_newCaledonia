@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://smar-git.github.io/inlabru_newCaledonia/slides/slides_1.html</loc>
-    <lastmod>2025-11-23T13:49:46.293Z</lastmod>
-  </url>
-  <url>
-    <loc>https://smar-git.github.io/inlabru_newCaledonia/index.html</loc>
-    <lastmod>2025-11-23T13:49:46.287Z</lastmod>
+    <loc>https://smar-git.github.io/inlabru_newCaledonia/practicals/LMM_ex.html</loc>
+    <lastmod>2025-11-23T14:21:09.372Z</lastmod>
   </url>
   <url>
     <loc>https://smar-git.github.io/inlabru_newCaledonia/Install_software.html</loc>
-    <lastmod>2025-11-23T13:49:46.205Z</lastmod>
+    <lastmod>2025-11-23T14:21:09.285Z</lastmod>
+  </url>
+  <url>
+    <loc>https://smar-git.github.io/inlabru_newCaledonia/index.html</loc>
+    <lastmod>2025-11-23T14:21:09.372Z</lastmod>
+  </url>
+  <url>
+    <loc>https://smar-git.github.io/inlabru_newCaledonia/slides/slides_1.html</loc>
+    <lastmod>2025-11-23T14:21:09.393Z</lastmod>
   </url>
 </urlset>

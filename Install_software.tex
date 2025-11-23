@@ -275,7 +275,7 @@
 \@ifundefined{codebgcolor}{\definecolor{codebgcolor}{named}{light}}{}
 \makeatother
 \makeatletter
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[boxrule=0pt, sharp corners, enhanced, frame hidden, colback={codebgcolor}, breakable]}{\end{tcolorbox}}\fi
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[colback={codebgcolor}, frame hidden, sharp corners, enhanced, boxrule=0pt, breakable]}{\end{tcolorbox}}\fi
 \makeatother
 \usepackage{bookmark}
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
@@ -304,8 +304,8 @@ installation.
 
 If you run into issues, you can post a question with information about
 what you tried and what didn't work, on the
-\href{https://github.com/inlabru-org/inlabruCourseMay2025/discussions}{course
-github discussion page} and Finn will reply when he's able.
+\href{https://github.com/smar-git/inlabru_newCaledonia/discussions}{course
+github discussion page} and we will try reply.
 
 Since 29 April 2025, the latest INLA package is built for R 4.5, so if
 you're able to upgrade your R installation, please do so to avoid
@@ -317,66 +317,42 @@ R versions, but compatibility is sometimes difficult.
 
 Due to the work involved in building the binaries for the INLA package C
 software for different architectures, the INLA package is not on CRAN,
-but it can be installed from its own distribution repository. The
-easiest approach is to add the repository to your local R options,
-e.g.~in \texttt{\textasciitilde{}/.Rprofile}, so that
-\texttt{install.packages("INLA")} can work as usual. Alternatively, the
-same repository information can be supplied via
-\texttt{install.packages("INLA",\ repos\ =\ ...)}.
+but it can be installed from its own distribution repository.
 
-In \texttt{\textasciitilde{}/.Rprofile}, add the following lines, or run
-the code in your R session:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{local}\NormalTok{(\{}
-\NormalTok{  r }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\AttributeTok{INLA =} \StringTok{"https://inla.r{-}inla{-}download.org/R/testing"}\NormalTok{,}
-         \AttributeTok{CRAN =} \StringTok{"https://cloud.r{-}project.org/"}\NormalTok{,}
-         \AttributeTok{inlabru\_universe =} \StringTok{"https://inlabru{-}org.r{-}universe.dev"}\NormalTok{)}
-  \FunctionTok{options}\NormalTok{(}\AttributeTok{repos =}\NormalTok{ r)}
-\NormalTok{\})}
-\end{Highlighting}
-\end{Shaded}
-
-Note: if you have installed \texttt{INLA} from the \texttt{"stable"}
-repository instead of \texttt{"testing"}, you may need to upgrade to the
-\texttt{"testing"} version, which typically contains bug fixes and
-improvements, and is the version \texttt{inlabru} is tested against.
-
-The third repository is optional, and gives you easy access to the
-development versions of \texttt{inlabru} (2.13.0.9016 or later) and
-\texttt{fmesher} (0.5.0 or later, which is a package dependency of
-\texttt{INLA} and \texttt{inlabru}). Most of the tutorials in this
-course will work with the CRAN versions of \texttt{inlabru} and
-\texttt{fmesher}, \texttt{2.12.0}, but installing the development
-version from \texttt{r-universe.dev} is recommended, and required for a
-few new features and contains bug fixes, see
-\href{https://inlabru-org.github.io/inlabru/news/}{the inlabru
-changelog}.
-
-To install the packages, including optional dependencies many of which
-are required for data analysis, run the following code in your R
-session:
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Check your \texttt{R} version.
+\item
+  Install R-INLA, instructions can be found
+  \href{https://www.r-inla.org/download-install}{here}
+\item
+  Install \texttt{inlabru} (available from CRAN)
+\end{enumerate}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{install.packages}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{"INLA"}\NormalTok{, }\StringTok{"inlabru"}\NormalTok{), }\AttributeTok{dependencies =} \ConstantTok{TRUE}\NormalTok{)}
+\CommentTok{\# Enable universe(s) by inlabru{-}org}
+\FunctionTok{options}\NormalTok{(}\AttributeTok{repos =} \FunctionTok{c}\NormalTok{(}
+  \AttributeTok{inlabruorg =} \StringTok{"https://inlabru{-}org.r{-}universe.dev"}\NormalTok{,}
+  \AttributeTok{INLA =} \StringTok{"https://inla.r{-}inla{-}download.org/R/testing"}\NormalTok{,}
+  \AttributeTok{CRAN =} \StringTok{"https://cloud.r{-}project.org"}
+\NormalTok{))}
+
+\CommentTok{\# Install some packages}
+\FunctionTok{install.packages}\NormalTok{(}\StringTok{"inlabru"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
-The warning about the unavailable \texttt{HKprocess} package can safely
-be ignored. \texttt{INLA} also suggests two Bioconductor packages,
-\texttt{graph} and \texttt{Rgraphviz}, which are not essential for this
-course, but can be installed with
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\ControlFlowTok{if}\NormalTok{ (}\SpecialCharTok{!}\FunctionTok{requireNamespace}\NormalTok{(}\StringTok{"BiocManager"}\NormalTok{, }\AttributeTok{quietly =} \ConstantTok{TRUE}\NormalTok{)) \{}
-  \FunctionTok{install.packages}\NormalTok{(}\StringTok{"BiocManager"}\NormalTok{)}
-\NormalTok{\}}
-\NormalTok{BiocManager}\SpecialCharTok{::}\FunctionTok{install}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{"graph"}\NormalTok{, }\StringTok{"Rgraphviz"}\NormalTok{), }\AttributeTok{dep =} \ConstantTok{TRUE}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\item
+  Make sure you have the latest \texttt{R-INLA}, \texttt{inlabru} and
+  \texttt{R} versions installed.
+\item
+  Install the following libraries:
+\end{enumerate}
 
 \section{Installation check}\label{installation-check}
 

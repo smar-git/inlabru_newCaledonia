@@ -12,16 +12,12 @@ editor_options:
   chunk_output_type: console
 ---
 
-
-
-
 # Welcome to the course!
 
 -   Welcome to the `inlabru` workshop!
 -   The aim of this workshop is to introduce you to a range of statistical modelling approaches, in particular the temporal, spatial and spatio-temporal modelling as implemented in the `inlabru` package.
--   Workshop materials are available in the github repository 
-- **Important!** Please use the instructions provided [here](Install_software.qmd) to install and check your installation _before_ the course start.
-
+-   Workshop materials are available in the github repository
+-   ⚠️**Important!** ⚠️ Please use the instructions provided [here](Install_software.qmd) to install and check your installation *before* the course start.
 
 # Learning Objectives for the workshop
 
@@ -47,27 +43,21 @@ No knowledge of `R-INLA` or `inlabru` is required.
 ::: panel-tabset
 ### Day 1
 
-
 : {.striped .hover}
 
 ### Day 2
-
 
 : {.striped .hover}
 
 ### Day 3
 
-
-
 : {.striped .hover}
 
 ### Day 4
 
-
 : {.striped .hover}
 
 ### Day 5
-
 
 : {.striped .hover}
 :::
@@ -109,37 +99,47 @@ install.packages("inlabru")
 ```
 
 <!-- ```{r} -->
+
 <!-- #| echo: false -->
+
 <!-- #| warning: false -->
+
 <!-- #| message: false -->
 
-
 <!--     if (file.exists("practicals_libraries.rds")) { -->
+
 <!--       libs_data <- readRDS("practicals_libraries.rds") -->
 
 <!--       # Libraries to exclude -->
+
 <!--       exclude_libs <- c("webexercises", "INLA", "inlabru", "knitr") -->
 
 <!--       # Filter out excluded libraries -->
+
 <!--       filtered_libs <- libs_data[!libs_data$Library %in% exclude_libs, ] -->
 
 <!--       if (nrow(filtered_libs) > 0) { -->
 
 <!--         cat("install.packages(c(\n") -->
+
 <!--         cat(paste0('  "', filtered_libs$Library, '"', collapse = ",\n")) -->
+
 <!--         cat("\n))") -->
 
 <!--       } else { -->
+
 <!--         cat("No libraries found after filtering.\n") -->
+
 <!--       } -->
+
 <!--     } -->
+
 <!-- ``` -->
 
-
-
-
 <!-- --- -->
+
 <!-- title: "inlabru_NewCaledonia" -->
+
 <!-- --- -->
 
 <!-- This is a Quarto website. t -->
@@ -147,5 +147,7 @@ install.packages("inlabru")
 <!-- To learn more about Quarto websites visit <https://quarto.org/docs/websites>. -->
 
 <!-- ```{r} -->
+
 <!-- 1 + 1 -->
+
 <!-- ``` -->

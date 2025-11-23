@@ -17,7 +17,7 @@ editor_options:
 -   Welcome to the `inlabru` workshop!
 -   The aim of this workshop is to introduce you to a range of statistical modelling approaches, in particular the temporal, spatial and spatio-temporal modelling as implemented in the `inlabru` package.
 -   Workshop materials are available in the github repository 
-- **Important!** Please use the instructions provided [here](Install_sortware.qmd) to install and check your installation _before_ the course start.
+- **Important!** Please use the instructions provided [here](Install_software.qmd) to install and check your installation _before_ the course start.
 
 
 # Learning Objectives for the workshop

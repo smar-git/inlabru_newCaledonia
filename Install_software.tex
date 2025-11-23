@@ -275,14 +275,13 @@
 \@ifundefined{codebgcolor}{\definecolor{codebgcolor}{named}{light}}{}
 \makeatother
 \makeatletter
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[breakable, colback={codebgcolor}, enhanced, boxrule=0pt, sharp corners, frame hidden]}{\end{tcolorbox}}\fi
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[boxrule=0pt, sharp corners, enhanced, frame hidden, colback={codebgcolor}, breakable]}{\end{tcolorbox}}\fi
 \makeatother
 \usepackage{bookmark}
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \urlstyle{same}
 \hypersetup{
-  pdftitle={inlabru Workshop},
-  pdfauthor={Jafet Belmont, Sara Martino and Janine Illian},
+  pdftitle={Software Insteallation},
   colorlinks=true,
   linkcolor={highlight},
   filecolor={Maroon},
@@ -291,8 +290,8 @@
   pdfcreator={LaTeX via pandoc}}
 
 
-\title{\texttt{inlabru} Workshop}
-\author{Jafet Belmont, Sara Martino and Janine Illian}
+\title{Software Insteallation}
+\author{}
 \date{}
 \begin{document}
 \maketitle
@@ -300,121 +299,127 @@
 \pagestyle{mystyle}
 
 
-\section{Welcome to the course!}\label{welcome-to-the-course}
+Please use the instructions below to install and check your
+installation.
 
-\begin{itemize}
-\tightlist
-\item
-  Welcome to the \texttt{inlabru} workshop!
-\item
-  The aim of this workshop is to introduce you to a range of statistical
-  modelling approaches, in particular the temporal, spatial and
-  spatio-temporal modelling as implemented in the \texttt{inlabru}
-  package.
-\item
-  Workshop materials are available in the github repository
-\item
-  \textbf{Important!} Please use the instructions provided
-  \href{Install_software.qmd}{here} to install and check your
-  installation \emph{before} the course start.
-\end{itemize}
+If you run into issues, you can post a question with information about
+what you tried and what didn't work, on the
+\href{https://github.com/inlabru-org/inlabruCourseMay2025/discussions}{course
+github discussion page} and Finn will reply when he's able.
 
-\section{Learning Objectives for the
-workshop}\label{learning-objectives-for-the-workshop}
+Since 29 April 2025, the latest INLA package is built for R 4.5, so if
+you're able to upgrade your R installation, please do so to avoid
+unnecessary issues. The package will in many cases also work with older
+R versions, but compatibility is sometimes difficult.
 
-At the end of the workshop, participants will have an understanding of:
+\section{\texorpdfstring{Installing \texttt{INLA} and
+\texttt{inlabru}}{Installing INLA and inlabru}}\label{installing-inla-and-inlabru}
 
-\begin{itemize}
-\tightlist
-\item
-  the motivation for and the challenges of analysing and modelling
-  spatial data
-\item
-  statistical models used to analyse spatial and spatio-temporal data
-\item
-  the implementation of these models in the \texttt{inlabru} package
-\item
-  how to independently analyse spatial data with \texttt{inlabru}
-\end{itemize}
+Due to the work involved in building the binaries for the INLA package C
+software for different architectures, the INLA package is not on CRAN,
+but it can be installed from its own distribution repository. The
+easiest approach is to add the repository to your local R options,
+e.g.~in \texttt{\textasciitilde{}/.Rprofile}, so that
+\texttt{install.packages("INLA")} can work as usual. Alternatively, the
+same repository information can be supplied via
+\texttt{install.packages("INLA",\ repos\ =\ ...)}.
 
-\section{Intended audience}\label{intended-audience}
-
-The workshop aims to cater for participants with a range of different
-backgrounds, who is interested in analysing data with modern spatial and
-spatio-temporal statistical modelling approaches.
-
-\section{Prerequisites}\label{prerequisites}
-
-Participants should be familiar with the \texttt{R} environment, and
-general statistical approaches for modelling such as regression,
-analysis of (co)variance, and generalized linear models.\hspace{0pt}
-
-No knowledge of \texttt{R-INLA} or \texttt{inlabru} is required.
-
-\section{Schedule}\label{schedule-tabs}
-
-\subsubsection{Day 1}
-
-: \{.striped .hover\}
-
-\subsubsection{Day 2}
-
-: \{.striped .hover\}
-
-\subsubsection{Day 3}
-
-: \{.striped .hover\}
-
-\subsubsection{Day 4}
-
-: \{.striped .hover\}
-
-\subsubsection{Day 5}
-
-: \{.striped .hover\}
-
-\clearpage
-
-\section{In preparation for the
-workshop}\label{in-preparation-for-the-workshop}
-
-Participants are required to follow the below steps ahead of the first
-day of the workshop:
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\item
-  Check your \texttt{R} version, it should be at least 4.3\ldots.
-\item
-  Install \href{https://www.r-inla.org/download-install}{R-INLA}
-\item
-  Install \texttt{inlabru} (available from CRAN)
-\end{enumerate}
+In \texttt{\textasciitilde{}/.Rprofile}, add the following lines, or run
+the code in your R session:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# Enable universe(s) by inlabru{-}org}
-\FunctionTok{options}\NormalTok{(}\AttributeTok{repos =} \FunctionTok{c}\NormalTok{(}
-  \AttributeTok{inlabruorg =} \StringTok{"https://inlabru{-}org.r{-}universe.dev"}\NormalTok{,}
-  \AttributeTok{INLA =} \StringTok{"https://inla.r{-}inla{-}download.org/R/testing"}\NormalTok{,}
-  \AttributeTok{CRAN =} \StringTok{"https://cloud.r{-}project.org"}
-\NormalTok{))}
-
-\CommentTok{\# Install some packages}
-\FunctionTok{install.packages}\NormalTok{(}\StringTok{"inlabru"}\NormalTok{)}
+\FunctionTok{local}\NormalTok{(\{}
+\NormalTok{  r }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\AttributeTok{INLA =} \StringTok{"https://inla.r{-}inla{-}download.org/R/testing"}\NormalTok{,}
+         \AttributeTok{CRAN =} \StringTok{"https://cloud.r{-}project.org/"}\NormalTok{,}
+         \AttributeTok{inlabru\_universe =} \StringTok{"https://inlabru{-}org.r{-}universe.dev"}\NormalTok{)}
+  \FunctionTok{options}\NormalTok{(}\AttributeTok{repos =}\NormalTok{ r)}
+\NormalTok{\})}
 \end{Highlighting}
 \end{Shaded}
 
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\setcounter{enumi}{2}
-\tightlist
-\item
-  Make sure you have the latest \texttt{R-INLA}, \texttt{inlabru} and
-  \texttt{R} versions installed.
-\item
-  Install the following libraries:
-\end{enumerate}
+Note: if you have installed \texttt{INLA} from the \texttt{"stable"}
+repository instead of \texttt{"testing"}, you may need to upgrade to the
+\texttt{"testing"} version, which typically contains bug fixes and
+improvements, and is the version \texttt{inlabru} is tested against.
+
+The third repository is optional, and gives you easy access to the
+development versions of \texttt{inlabru} (2.13.0.9016 or later) and
+\texttt{fmesher} (0.5.0 or later, which is a package dependency of
+\texttt{INLA} and \texttt{inlabru}). Most of the tutorials in this
+course will work with the CRAN versions of \texttt{inlabru} and
+\texttt{fmesher}, \texttt{2.12.0}, but installing the development
+version from \texttt{r-universe.dev} is recommended, and required for a
+few new features and contains bug fixes, see
+\href{https://inlabru-org.github.io/inlabru/news/}{the inlabru
+changelog}.
+
+To install the packages, including optional dependencies many of which
+are required for data analysis, run the following code in your R
+session:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{install.packages}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{"INLA"}\NormalTok{, }\StringTok{"inlabru"}\NormalTok{), }\AttributeTok{dependencies =} \ConstantTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+The warning about the unavailable \texttt{HKprocess} package can safely
+be ignored. \texttt{INLA} also suggests two Bioconductor packages,
+\texttt{graph} and \texttt{Rgraphviz}, which are not essential for this
+course, but can be installed with
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{if}\NormalTok{ (}\SpecialCharTok{!}\FunctionTok{requireNamespace}\NormalTok{(}\StringTok{"BiocManager"}\NormalTok{, }\AttributeTok{quietly =} \ConstantTok{TRUE}\NormalTok{)) \{}
+  \FunctionTok{install.packages}\NormalTok{(}\StringTok{"BiocManager"}\NormalTok{)}
+\NormalTok{\}}
+\NormalTok{BiocManager}\SpecialCharTok{::}\FunctionTok{install}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{"graph"}\NormalTok{, }\StringTok{"Rgraphviz"}\NormalTok{), }\AttributeTok{dep =} \ConstantTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\section{Installation check}\label{installation-check}
+
+Please check your installation using the basic model runs below. If you
+run into issues, you can post a question with information about what you
+tried and what didn't work, on the
+\href{https://github.com/inlabru-org/inlabruCourseMay2025/discussions}{course
+github discussion page} and Finn will reply when he's able. Since 29
+April 2025, the latest INLA package is built for R 4.5, so if you're
+able to upgrade your R installation, please do so to avoid unnecessary
+issues. The package will in many cases also work with older R versions,
+but compatibility is sometimes difficult.
+
+You can check that \texttt{INLA} is correctly installed by running
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{df }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{y =} \FunctionTok{rnorm}\NormalTok{(}\DecValTok{100}\NormalTok{) }\SpecialCharTok{+} \DecValTok{10}\NormalTok{)}
+\NormalTok{fit }\OtherTok{\textless{}{-}}\NormalTok{ INLA}\SpecialCharTok{::}\FunctionTok{inla}\NormalTok{(}
+\NormalTok{  y }\SpecialCharTok{\textasciitilde{}} \DecValTok{1}\NormalTok{,}
+  \AttributeTok{data =}\NormalTok{ df}
+\NormalTok{)}
+\FunctionTok{summary}\NormalTok{(fit)}
+\end{Highlighting}
+\end{Shaded}
+
+If the simple \texttt{inla()} call fails with a crash, you may need to
+install different \texttt{inla} binaries for your hardware/software
+combination, with \texttt{INLA::inla.binary.install()}.
+
+When \texttt{inla()} works, you can check that \texttt{inlabru} is
+installed correctly by running the same model in \texttt{inlabru}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fit }\OtherTok{\textless{}{-}}\NormalTok{ inlabru}\SpecialCharTok{::}\FunctionTok{bru}\NormalTok{(}
+\NormalTok{  y }\SpecialCharTok{\textasciitilde{}} \FunctionTok{Intercept}\NormalTok{(}\DecValTok{1}\NormalTok{, }\AttributeTok{prec.linear =} \FunctionTok{exp}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{7}\NormalTok{)),}
+  \AttributeTok{data =}\NormalTok{ df}
+\NormalTok{)}
+\FunctionTok{summary}\NormalTok{(fit)}
+\end{Highlighting}
+\end{Shaded}
+
 
 
 

@@ -9,6 +9,7 @@ https://smar-git.github.io/inlabru_newCaledonia/
 
 - `index.qmd`: Homepage
 - `slides/`: Workshop slides
+-  `practicals/`: Workshop practicals
 - `_quarto.yml`: Quarto website configuration
 - `renv/` and `renv.lock`: R environment
 

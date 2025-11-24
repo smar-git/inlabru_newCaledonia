@@ -38,11 +38,10 @@ In this practical we are going to fit linear (mixed) models in `inlabru`.
 We are going to to:
 
 - Fit a [simple linear regression](#SLR)
-- Fit a [linear regression with discrete covariates and interactions](LM_int)
+- Fit a [linear regression with discrete covariates and interactions](#LM_int)
 - Fit a [linear mixed model](#LMM).
 
-In all cases we are first going to simulate our data.
-We then fit the data and explore the results.
+
 
 ::: {.callout-note icon="false"}
 You can download the R-script of this practical by clicking the button below:
@@ -367,216 +366,413 @@ round(c(pred2$q1$mean, pred2$q2$mean),2)
 ```
 Notice that now the interval we obtain is larger.
 
-## Linear model with interactions {#LM_int}
-<!-- ## Linear Mixed Model{#LMM} -->
+## Linear model with discrete variables and  interactions{#LM_int}
 
-<!-- In this practical we will: -->
 
-<!-- -   Understand the basic structure of a Linear Mixed Model (LLM) -->
-<!-- -   Simulate data from a LMM -->
-<!-- -   Learn how to fit a LMM with `inlabru` and predict from the model. -->
+We consider now the dataset `iris`. Here data are recorded about 150 different iris flowers belonging to 3 different species (50 for each specie).
 
-<!-- Consider the a simple linear regression model except with the addition that the data that comes in groups. Suppose that we want to include a random effect for each group $j$ (equivalent to adding a group random intercept). The model is then: $$ -->
-<!--  y_{ij}  = \beta_0 + \beta_1 x_i + u_j + \epsilon_{ij} ~~~  \text{for}~i = 1,\ldots,N~ \text{and}~ j = 1,\ldots,m. -->
-<!-- $$ -->
+You can get more information about these data using 
+```{r}
+#| eval: false
+?iris
+```
 
-<!-- Here the random group effect is given by the variable $u_j \sim \mathcal{N}(0, \tau^{-1}_u)$ with $\tau_u = 1/\sigma^2_u$ describing the variability between groups (i.e., how much the group means differ from the overall mean). Then, $\epsilon_j \sim \mathcal{N}(0, \tau^{-1}_\epsilon)$ denotes the residuals of the model and $\tau_\epsilon = 1/\sigma^2_\epsilon$ captures how much individual observations deviate from their group mean (i.e., variability within group). -->
+We want to model the `Petal.length` as a function of `Sepal.length` and species.
 
-<!-- The model design matrix for the random effect has one row for each observation (this is equivalent to a random intercept model). The row of the design matrix associated with the $ij$-th observation consists of zeros except for the element associated with $u_j$, which has a one. -->
+```{r}
+data("iris")
 
-<!-- $$ -->
-<!-- \pmb{\eta} = \pmb{A}\pmb{u} = \pmb{A}_1\pmb{u}_1 + \pmb{A}_2\pmb{u}_2 + \pmb{A}_3\pmb{u}_3 -->
-<!-- $$ -->
+iris %>% ggplot() + geom_point(aes(Sepal.Length, Petal.Length, color= Species)) +
+  facet_wrap(.~Species)
+```
 
-<!-- ::: {.callout-note icon="false"} -->
-<!-- ## Supplementary material: LMM as a LGM -->
+**Model 1 - Only `Species` effect**
+Our first model assumes that the Sepal length only depends on the species, which is a categoriacal variable.
 
-<!-- In matrix form, the linear mixed model for the *j*-th group can be written as: -->
+$$
+\begin{aligned}
+Y_i & \sim\mathcal{N}(\mu_i,\sigma_y),\ &  i = 1,\dots,150 \\
+\mu_{i} & = \eta_{i} = \beta_1\ I(\text{obs }i\text{belongs to species } 1  ) + \beta_2\ I(\text{obs }i\text{belongs to species } 2  ) + \beta_3\ I(\text{obs }i\text{belongs to species } 3  )
+\end{aligned}
+$$
 
-<!-- $$ \overbrace{\mathbf{y}_j}^{ N \times 1} = \overbrace{X_j}^{ N \times 2} \underbrace{\beta}_{1\times 1} + \overbrace{Z_j}^{n_j \times 1} \underbrace{u_j}_{1\times1} + \overbrace{\epsilon_j}^{n_j \times 1}, $$ -->
+Using `lm()` we can fit the model as:
+```{r}
+mod1 = lm(Petal.Length ~ Species, data  = iris)
+summary(mod1)
+```
 
-<!-- In a latent Gaussian model (LGM) formulation the mixed model predictor for the *i*-th observation can be written as : -->
+Notice that `lm()` uses `setosa` as reference category, the parameter `Speciesversicolor` is then interpreted as the difference between the effect of the  reference species and effect of `versicolor` species.
 
-<!-- $$ -->
-<!-- \eta_i = \beta_0 + \beta_1 x_i + \sum_k^K f_k(u_j) -->
-<!-- $$ -->
+::: {.callout-warning icon="false"}
+## {{< bi pencil-square color=#c8793c >}} Task
 
-<!-- where $f_k(u_j) = u_j$ since there’s only one random effect per group (i.e., a random intercept for group $j$). The fixed effects $(\beta_0,\beta_1)$ are assigned Gaussian priors (e.g., $\beta \sim \mathcal{N}(0,\tau_\beta^{-1})$). The random effects $\mathbf{u} = (u_1,\ldots,u_m)^T$ follow a Gaussian density $\mathcal{N}(0,\mathbf{Q}_u^{-1})$ where $\mathbf{Q}_u = \tau_u\mathbf{I}_m$ is the precision matrix for the random intercepts. Then, the components for the LGM are the following: -->
+Implement the model above using `inlabru` using the `model.matrix()` function in R.
 
-<!-- -   Latent field given by -->
 
-<!--     $$ -->
-<!--     \begin{bmatrix} \beta \\\mathbf{u}  -->
-<!--     \end{bmatrix} \sim \mathcal{N}\left(\mathbf{0},\begin{bmatrix}\tau_\beta^{-1}\mathbf{I}_2&\mathbf{0}\\\mathbf{0} &\tau_u^{-1}\mathbf{I}_m\end{bmatrix}\right) -->
-<!--     $$ -->
+```{r}
+#| webex.hide: "Click here to see the solution"
+#| code-fold: show
+#| purl: false
 
-<!-- -   Likelihood: -->
+#Option 1 - Use the model.matrix() function
 
-<!--     $$ -->
-<!--     y_i \sim \mathcal{N}(\eta_i,\tau_{\epsilon}^{-1}) -->
-<!--     $$ -->
+mm = model.matrix(Petal.Length ~ Species, data  = iris)
+iris1 = cbind(iris, mm)
+cmp = ~ Intercept(1) +  versicolor(Speciesversicolor, model = "linear") + virginica(Speciesvirginica, model  = "linear")
+lik = bru_obs(formula =Petal.Length ~ .,
+              data = iris1)
+fit1a = bru(cmp, lik)
 
-<!-- -   Hyperparameters: -->
 
-<!--     -   $\tau_u\sim\mathrm{Gamma}(a,b)$ -->
-<!--     -   $\tau_\epsilon \sim \mathrm{Gamma}(c,d)$ -->
-<!-- ::: -->
+```
 
-<!-- ### **Simulate example data** -->
+:::
 
-<!-- ```{r} -->
-<!-- #| message: false -->
-<!-- #| warning: false -->
-<!-- #| purl: false -->
-<!-- #| echo: false -->
-<!-- library(inlabru) -->
-<!-- library(INLA) -->
-<!-- library(ggplot2) -->
-<!-- library(dplyr) -->
-<!-- ``` -->
+Another way to fit this model is to realize that a fixed effect can be seen as an iid effect with fixed precision, one of  the `inlabru` ways to fit the model is:
+```{r}
 
-<!-- ```{r } -->
-<!-- #| code-summary: "Simulate data from a LMM" -->
-<!-- #|  -->
-<!-- set.seed(12) -->
-<!-- beta = c(1.5,1) -->
-<!-- sd_error = 1 -->
-<!-- tau_group = 1 -->
+cmp = ~ -1 +  cov(Species, model = "iid", fixed = T, initial = log(0.001))
+lik = bru_obs(formula =Petal.Length ~ .,
+              data = iris)
+fit1b = bru(cmp, lik)
+```
+Notice that we fix the precision of the `iid` effect to the same value as the precision of the linear effects which is 0.001.
 
-<!-- n = 100 -->
-<!-- n.groups = 5 -->
-<!-- x = rnorm(n) -->
-<!-- v = rnorm(n.groups, sd = tau_group^{-1/2}) -->
-<!-- y = beta[1] + beta[2] * x + rnorm(n, sd = sd_error) + -->
-<!--   rep(v, each = 20) -->
 
-<!-- df = data.frame(y = y, x = x, j = rep(1:5, each = 20))   -->
-<!-- ``` -->
 
-<!-- Note that `inlabru` expects an integer indexing variable to label the groups. -->
 
-<!-- ```{r} -->
-<!-- #| code-fold: true -->
-<!-- #| fig-cap: Data for the linear mixed model example with 5 groups -->
-<!-- #| fig-align: center -->
-<!-- #| fig-width: 4 -->
-<!-- #| fig-height: 4 -->
+The fitted values can be inspected as
 
-<!-- ggplot(df) + -->
-<!--   geom_point(aes(x = x, colour = factor(j), y = y)) + -->
-<!--   theme_classic() + -->
-<!--   scale_colour_discrete("Group") -->
+```{r}
+fit1b$summary.random$cov
+```
 
-<!-- ``` -->
 
 
+The results from the `fit1b` model is not the same we get from the `lm()` fit. What is happening? It is just a matter of parametrization.
 
+In the following we are going to recover the `lm()` results using the fitted `fit1b` object and the `predict()` function.
 
-<!-- ### Fitting a LMM in `inlabru` -->
+```{r}
+#| webex.hide: "Click here to see the solution"
+#| code-fold: show
+#| purl: false
 
-<!-- ------------------------------------------------------------------------ -->
+newdata = data.frame(Species = 0)
+preds = predict(fit1b, newdata = c() , ~ data.frame(Reference = cov_latent[2],
+                                             Speciesversicolor = cov_latent[2]-cov_latent[1],
+                                             Speciesvirginica = cov_latent[3]-cov_latent[1]))
+```
 
-<!-- **Defining model components and observational model** -->
 
-<!-- In order to specify this model we must use the `group` argument to tell `inlabru` which variable indexes the groups. The `model = "iid"` tells INLA that the groups are independent from one another. -->
+Two things to notice here:
 
-<!-- ```{r } -->
-<!-- # Define model components -->
-<!-- cmp =  ~ -1 + beta_0(1) + beta_1(x, model = "linear") + -->
-<!--   u(j, model = "iid") -->
-<!-- ``` -->
+1. We have used a empty object as `newdata` in the `predict()` function.
+2. The suffix `_latent` indicates that we are interested in the latent model efffect.
 
-<!-- The group variable is indexed by column `j` in the dataset. We have chosen to name this component `v()` to connect with the mathematical notation that we used above. -->
+**Model 2 - Interaction between `Species` and `Sepal.Length`**
 
-<!-- ```{r } -->
-<!-- # Construct likelihood -->
-<!-- lik =  bru_obs(formula = y ~., -->
-<!--             family = "gaussian", -->
-<!--             data = df) -->
-<!-- ``` -->
+Out second model is defined as
+$$
+\begin{aligned}
+Y_i & \sim\mathcal{N}(\mu_i,\sigma_y),\ &  i = 1,\dots,150 \\
+\mu_{i} & = \eta_{i} = \beta_0 +  \beta_1 x_i\ I(\text{obs }i\text{belongs to species } 1  ) + \beta_2x_i\ I(\text{obs }i\text{belongs to species } 2  ) + \beta_3x_i\ I(\text{obs }i\text{belongs to species } 3  )
+\end{aligned}
+$$
 
-<!-- **Fitting the model** -->
+that is, we have a common intercept $\beta_0$ while the linear effect of the Sepal length depends on the Species. Using `lm()` we have:
+```{r}
+mod2 = lm(Petal.Length ~ Species:Sepal.Length, data = iris)
+mod2
+```
 
-<!-- The model can be fitted exactly as in the previous examples by using the `bru` function with the components and likelihood objects. -->
 
-<!-- ```{r} -->
-<!-- #| collapse: true -->
-<!-- #| code-summary: "Fit a LMM in inlabru" -->
-<!-- fit = bru(cmp, lik) -->
-<!-- summary(fit) -->
-<!-- ``` -->
+::: {.callout-warning icon="false"}
+## {{< bi pencil-square color=#c8793c >}} Task
 
-<!-- ### Model predictions -->
+Fit the same model in `inlabru` using the `model.matrix()`.
 
-<!-- To compute model predictions we can create a `data.frame` containing a range of values of covariate where we want the response to be predicted for each group. Then we simply call the predict function while specifying the model components. -->
 
-<!-- ```{r} -->
-<!-- #| code-fold: true -->
-<!-- #| code-summary: "LMM fitted values" -->
-<!-- #| fig-align: center -->
-<!-- #| fig-width: 4 -->
-<!-- #| fig-height: 4 -->
+```{r}
+#| webex.hide: "Click here to see the solution"
+#| code-fold: show
+#| purl: false
 
-<!-- # New data -->
-<!-- xpred = seq(range(x)[1], range(x)[2], length.out = 100) -->
-<!-- j = 1:n.groups -->
-<!-- pred_data = expand.grid(x = xpred, j = j) -->
-<!-- pred = predict(fit, pred_data, formula = ~ beta_0 + beta_1 + u)  -->
+mm = model.matrix(Petal.Length ~ Species:Sepal.Length, data = iris)
 
+# change the names to make the R friendly (the : makes problems when using them to identify columns)
 
-<!-- pred %>% -->
-<!--   ggplot(aes(x=x,y=mean,color=factor(j)))+ -->
-<!--   geom_line()+ -->
-<!--   geom_ribbon(aes(x,ymin = q0.025, ymax= q0.975,fill=factor(j)), alpha = 0.5) +  -->
-<!--   geom_point(data=df,aes(x=x,y=y,colour=factor(j)))+ -->
-<!--   facet_wrap(~j) -->
+colnames(mm) = c("Int", "Setosa_Sepal",  "Versicolor_Sepal", "Virginica_Sepal")
 
-<!-- ``` -->
+iris2 = cbind(iris, mm)
 
-<!-- ::: {.callout-tip icon="false"} -->
-<!-- ## {{< bi question-octagon color=#6dc83c >}} Question -->
+cmp = ~ Intercept(1) + int1(Setosa_Sepal, model = "linear") +
+  int2(Versicolor_Sepal, model = "linear") +
+  int3(Virginica_Sepal, model = "linear") 
+  
+lik = bru_obs(formula =Petal.Length ~ .,
+              data = iris2)
+fit2 = bru(cmp, lik)
 
-<!-- Suppose that we are also interested in including random slopes into our model. Assuming intercept and slopes are independent, can your write down the linear predictor and the components of this model as a LGM? -->
 
-<!-- `r hide("Give me a hint")` -->
+```
+:::
 
-<!-- In general, the mixed model predictor can decomposed as: -->
 
-<!-- $$ \pmb{\eta} = X\beta + Z\mathbf{u} $$ -->
+A second option is to use a _weighted_ iid random effect with fixed precision as:
+```{r}
 
-<!-- Where $X$ is a $n \times p$ design matrix and $\beta$ the corresponding *p*-dimensional vector of fixed effects. Then $Z$ is a $n\times q_J$ design matrix for the $q_J$ random effects and $J$ groups; $\mathbf{v}$ is then a $q_J \times 1$ vector of $q$ random effects for the $J$ groups. In a latent Gaussian model (LGM) formulation this can be written as: -->
+cmp = ~Intercept(1)  + 
+  slope(Species, Sepal.Length, model = "iid", fixed = T, initial = log(0.001))
 
-<!-- $$ \eta_i = \beta_0 + \sum\beta_j x_{ij} + \sum_k f(k) (u_{ij}) $$ -->
+lik = bru_obs(formula =Petal.Length ~ .,
+              data = iris)
+fit2b = bru(cmp, lik)
+```
 
-<!-- `r unhide()` -->
+Notice that this time, the parametrization of `lm()` and `inlabru` is the same, so we get the same results from the two models.
 
-<!-- `r hide("See Solution")` -->
 
-<!-- -   The linear predictor is given by -->
 
-<!--     $$ -->
-<!--     \eta_i = \beta_0 + \beta_1x_i + u_{0j} + u_{1j}x_i -->
-<!--     $$ -->
+::: {.callout-warning icon="false"}
+## {{< bi pencil-square color=#c8793c >}} Task
 
-<!-- -   Latent field defined by: -->
+Plot the estimated regression lines for the three species using model `fit2b`
 
-<!--     -   $\beta \sim \mathcal{N}(0,\tau_\beta^{-1})$ -->
 
-<!--     -   $\mathbf{u}_j = \begin{bmatrix}u_{0j} \\ u_{1j}\end{bmatrix}, \mathbf{u}_j \sim \mathcal{N}(\mathbf{0},\mathbf{Q}_u^{-1})$ where the precision matrix is a block-diagonal matrix with entries $\mathbf{Q}_u= \begin{bmatrix}\tau_{u_0} & {0} \\{0} & \tau_{u_1}\end{bmatrix}$ -->
+```{r}
+#| webex.hide: "Click here to see the solution"
+#| code-fold: show
+#| purl: false
 
-<!-- -   The hyperparameters are then: -->
+preds = predict(fit2b, iris, ~ Intercept + slope)
 
-<!--     -   $\tau_{u_0},\tau_{u_1} \text{and}~\tau_\epsilon$ -->
+pp = preds %>% ggplot() + geom_line(aes(Sepal.Length, mean, group = Species, color = Species)) +
+  geom_ribbon(aes(Sepal.Length, ymin = q0.025, ymax = q0.975, 
+                  group = Species, fill = Species), alpha = 0.5) +
+  geom_point(aes(Sepal.Length, Petal.Length,color = Species))
 
-<!-- To fit this model in `inlabru` we can simply modify the model components as follows: -->
+```
+:::
 
-<!-- ```{r} -->
-<!-- #| eval: false -->
-<!-- #| purl: false -->
 
-<!-- cmp =  ~ -1 + beta_0(1) + beta_1(x, model = "linear") + -->
-<!--   u0(j, model = "iid") + u1(j,x, model = "iid") -->
-<!-- ``` -->
+## Linear Mixed Model{#LMM}
 
-<!-- `r unhide()` -->
-<!-- ::: -->
+Finally we are going to consider a simple linear mixed model, that is 
+ a simple linear regression model except with the addition that the data that comes in groups. 
+ 
+ Suppose that we want to include a random effect for each group $j$ (equivalent to adding a group random intercept). The model is then: 
+
+$$
+ y_{ij}  = \beta_0 + \beta_1 x_i + u_j + \epsilon_{ij} ~~~  \text{for}~i = 1,\ldots,N~ \text{and}~ j = 1,\ldots,m.
+$$
+
+Here the random group effect is given by the variable $u_j \sim \mathcal{N}(0, \tau^{-1}_u)$ with $\tau_u = 1/\sigma^2_u$ describing the variability between groups (i.e., how much the group means differ from the overall mean). Then, $\epsilon_j \sim \mathcal{N}(0, \tau^{-1}_\epsilon)$ denotes the residuals of the model and $\tau_\epsilon = 1/\sigma^2_\epsilon$ captures how much individual observations deviate from their group mean (i.e., variability within group).
+
+The model design matrix for the random effect has one row for each observation (this is equivalent to a random intercept model). The row of the design matrix associated with the $ij$-th observation consists of zeros except for the element associated with $u_j$, which has a one.
+
+$$
+\pmb{\eta} = \pmb{A}\pmb{u} = \pmb{A}_1\pmb{u}_1 + \pmb{A}_2\pmb{u}_2 + \pmb{A}_3\pmb{u}_3
+$$
+
+::: {.callout-note icon="false"}
+## Supplementary material: LMM as a LGM
+
+In matrix form, the linear mixed model for the *j*-th group can be written as:
+
+$$ \overbrace{\mathbf{y}_j}^{ N \times 1} = \overbrace{X_j}^{ N \times 2} \underbrace{\beta}_{1\times 1} + \overbrace{Z_j}^{n_j \times 1} \underbrace{u_j}_{1\times1} + \overbrace{\epsilon_j}^{n_j \times 1}, $$
+
+In a latent Gaussian model (LGM) formulation the mixed model predictor for the *i*-th observation can be written as :
+
+$$
+\eta_i = \beta_0 + \beta_1 x_i + \sum_k^K f_k(u_j)
+$$
+
+where $f_k(u_j) = u_j$ since there’s only one random effect per group (i.e., a random intercept for group $j$). The fixed effects $(\beta_0,\beta_1)$ are assigned Gaussian priors (e.g., $\beta \sim \mathcal{N}(0,\tau_\beta^{-1})$). The random effects $\mathbf{u} = (u_1,\ldots,u_m)^T$ follow a Gaussian density $\mathcal{N}(0,\mathbf{Q}_u^{-1})$ where $\mathbf{Q}_u = \tau_u\mathbf{I}_m$ is the precision matrix for the random intercepts. Then, the components for the LGM are the following:
+
+-   Latent field given by
+
+    $$
+    \begin{bmatrix} \beta \\\mathbf{u}
+    \end{bmatrix} \sim \mathcal{N}\left(\mathbf{0},\begin{bmatrix}\tau_\beta^{-1}\mathbf{I}_2&\mathbf{0}\\\mathbf{0} &\tau_u^{-1}\mathbf{I}_m\end{bmatrix}\right)
+    $$
+
+-   Likelihood:
+
+    $$
+    y_i \sim \mathcal{N}(\eta_i,\tau_{\epsilon}^{-1})
+    $$
+
+-   Hyperparameters:
+
+    -   $\tau_u\sim\mathrm{Gamma}(a,b)$
+    -   $\tau_\epsilon \sim \mathrm{Gamma}(c,d)$
+:::
+
+### **Simulate example data**
+
+```{r}
+#| message: false
+#| warning: false
+#| purl: false
+#| echo: false
+library(inlabru)
+library(INLA)
+library(ggplot2)
+library(dplyr)
+```
+
+```{r }
+#| code-summary: "Simulate data from a LMM"
+#|
+set.seed(12)
+beta = c(1.5,1)
+sd_error = 1
+tau_group = 1
+
+n = 100
+n.groups = 5
+x = rnorm(n)
+v = rnorm(n.groups, sd = tau_group^{-1/2})
+y = beta[1] + beta[2] * x + rnorm(n, sd = sd_error) +
+  rep(v, each = 20)
+
+df = data.frame(y = y, x = x, j = rep(1:5, each = 20))
+```
+
+Note that `inlabru` expects an integer indexing variable to label the groups.
+
+```{r}
+#| code-fold: true
+#| fig-cap: Data for the linear mixed model example with 5 groups
+#| fig-align: center
+#| fig-width: 4
+#| fig-height: 4
+
+ggplot(df) +
+  geom_point(aes(x = x, colour = factor(j), y = y)) +
+  theme_classic() +
+  scale_colour_discrete("Group")
+
+```
+
+
+
+
+### Fitting a LMM in `inlabru`
+
+------------------------------------------------------------------------
+
+This is done in three steps:
+
+1. Define the model components
+2. Define the formula and the observation model (likelihood) using `bru_obs()`
+3. Run the model using `bru()`
+
+After that you can collect and inspect results.
+
+**Defining model components and observational model**
+
+In order to specify this model we must use the `group` argument to tell `inlabru` which variable indexes the groups. The `model = "iid"` tells INLA that the groups are independent from one another.
+
+```{r }
+# Define model components
+cmp =  ~ -1 + beta_0(1) + beta_1(x, model = "linear") +
+  u(j, model = "iid")
+```
+
+The group variable is indexed by column `j` in the dataset. We have chosen to name this component `v()` to connect with the mathematical notation that we used above.
+
+```{r }
+# Construct likelihood
+lik =  bru_obs(formula = y ~.,
+            family = "gaussian",
+            data = df)
+```
+
+**Fitting the model**
+
+The model can be fitted exactly as in the previous examples by using the `bru` function with the components and likelihood objects.
+
+```{r}
+#| collapse: true
+#| code-summary: "Fit a LMM in inlabru"
+fit = bru(cmp, lik)
+summary(fit)
+```
+
+### Model predictions
+
+To compute model predictions we can create a `data.frame` containing a range of values of covariate where we want the response to be predicted for each group. Then we simply call the predict function while specifying the model components.
+
+```{r}
+#| code-fold: true
+#| code-summary: "LMM fitted values"
+#| fig-align: center
+#| fig-width: 4
+#| fig-height: 4
+
+# New data
+xpred = seq(range(x)[1], range(x)[2], length.out = 100)
+j = 1:n.groups
+pred_data = expand.grid(x = xpred, j = j)
+pred = predict(fit, pred_data, formula = ~ beta_0 + beta_1 + u)
+
+
+pred %>%
+  ggplot(aes(x=x,y=mean,color=factor(j)))+
+  geom_line()+
+  geom_ribbon(aes(x,ymin = q0.025, ymax= q0.975,fill=factor(j)), alpha = 0.5) +
+  geom_point(data=df,aes(x=x,y=y,colour=factor(j)))+
+  facet_wrap(~j)
+
+```
+
+::: {.callout-tip icon="false"}
+## {{< bi question-octagon color=#6dc83c >}} Question
+
+Suppose that we are also interested in including random slopes into our model. Assuming intercept and slopes are independent, can your write down the linear predictor and the components of this model as a LGM?
+
+`r hide("Give me a hint")`
+
+In general, the mixed model predictor can decomposed as:
+
+$$ \pmb{\eta} = X\beta + Z\mathbf{u} $$
+
+Where $X$ is a $n \times p$ design matrix and $\beta$ the corresponding *p*-dimensional vector of fixed effects. Then $Z$ is a $n\times q_J$ design matrix for the $q_J$ random effects and $J$ groups; $\mathbf{v}$ is then a $q_J \times 1$ vector of $q$ random effects for the $J$ groups. In a latent Gaussian model (LGM) formulation this can be written as:
+
+$$ \eta_i = \beta_0 + \sum\beta_j x_{ij} + \sum_k f(k) (u_{ij}) $$
+
+`r unhide()`
+
+`r hide("See Solution")`
+
+-   The linear predictor is given by
+
+    $$
+    \eta_i = \beta_0 + \beta_1x_i + u_{0j} + u_{1j}x_i
+    $$
+
+-   Latent field defined by:
+
+    -   $\beta \sim \mathcal{N}(0,\tau_\beta^{-1})$
+
+    -   $\mathbf{u}_j = \begin{bmatrix}u_{0j} \\ u_{1j}\end{bmatrix}, \mathbf{u}_j \sim \mathcal{N}(\mathbf{0},\mathbf{Q}_u^{-1})$ where the precision matrix is a block-diagonal matrix with entries $\mathbf{Q}_u= \begin{bmatrix}\tau_{u_0} & {0} \\{0} & \tau_{u_1}\end{bmatrix}$
+
+-   The hyperparameters are then:
+
+    -   $\tau_{u_0},\tau_{u_1} \text{and}~\tau_\epsilon$
+
+To fit this model in `inlabru` we can simply modify the model components as follows:
+
+```{r}
+#| eval: false
+#| purl: false
+
+cmp =  ~ -1 + beta_0(1) + beta_1(x, model = "linear") +
+  u0(j, model = "iid") + u1(j,x, model = "iid")
+```
+
+`r unhide()`
+:::
